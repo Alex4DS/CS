@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продукты | Технологии - CS</title>
+    <style>
+        /* МИНИМАЛИСТИЧНЫЙ ИНЖЕНЕРНЫЙ СТИЛЬ — согласован с simulator.html */
+        :root {
+            --bg-color: #f5f7fa;
+            --text-color: #1a2530;
+            --text-muted: #5a6b7a;
+            --border-color: #e3e9ef;
+            --accent-color: #2E7D5B;
+            --accent-hover: #256448;
+            --card-bg: #ffffff;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-padding-top: 80px; }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+        /* КНОПКИ */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .btn-primary { background-color: var(--accent-color); color: #fff; }
+        .btn-primary:hover { background-color: var(--accent-hover); }
+
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        /* ШАПКА */
+        .site-header {
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; min-height: 32px; }
+        .logo-img { height: 32px; width: auto; filter: grayscale(100%); }
+        .logo-text { font-weight: 700; font-size: 18px; letter-spacing: -0.5px; }
+        .main-nav { display: flex; gap: 24px; }
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--text-color); border-bottom-color: var(--accent-color); }
+
+        /* ЗАГЛАВНЫЙ БЛОК */
+        .page-hero {
+            background-color: #fff;
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Обёртка на всю ширину контейнера — как остальные секции */
+        .page-hero-text {
+            width: 100%;
+        }
+        .page-title { font-size: 32px; margin-bottom: 12px; }
+
+        /* Без max-width — подзаголовок тянется на ту же ширину,
+           что и заголовок, правые края совпадают */
+        .page-subtitle {
+            color: var(--text-muted);
+        }
+
+        /* ОБЩИЕ ЗАГОЛОВКИ СЕКЦИЙ */
+        .section-header { margin-bottom: 8px; }
+        .section-subtitle {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .section-header h2 { font-size: 28px; margin-top: 4px; }
+
+        /* Без max-width — на всю ширину контейнера, как и всё остальное */
+        .section-note { color: var(--text-muted); margin-top: 8px; }
+
+        /* МОДУЛИ */
+        .modules-section { padding: 60px 0; }
+        .modules-grid { display: flex; flex-direction: column; gap: 40px; }
+        .module-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(20, 40, 60, 0.04);
+        }
+        @media (max-width: 768px) { .module-card { grid-template-columns: 1fr; } }
+
+        .module-image { min-height: 220px; background: #f3f4f6; }
+        .module-image img,
+        .module-image svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .module-content {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .module-meta {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .module-content h3 { font-size: 22px; margin-bottom: 12px; }
+        .module-content p { color: #4b5563; font-size: 15px; }
+
+        /* АЛГОРИТМ */
+        .workflow-section {
+            background-color: #fff;
+            padding: 60px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        @media (max-width: 768px) { .workflow-steps { grid-template-columns: 1fr; } }
+        .step-item { border-top: 2px solid var(--border-color); padding-top: 16px; }
+        .step-num { font-size: 14px; font-weight: 700; color: var(--accent-color); margin-bottom: 8px; }
+        .step-item h4 { margin-bottom: 8px; font-size: 16px; }
+        .step-item p { font-size: 14px; color: var(--text-muted); }
+        .workflow-cta { text-align: center; }
+
+        /* СЕКЦИЯ СИМУЛЯТОРА — в стиле simulator.html */
+        .simulator-section {
+            padding: 60px 0;
+            background-color: #fff;
+            border-top: 1px solid var(--border-color);
+        }
+        .simulator-wrapper {
+            width: 100%;
+            margin-top: 24px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            box-shadow: 0 4px 20px rgba(20, 40, 60, 0.06);
+            /* высоту задаёт iframe, wrapper сжимается под него */
+        }
+        .simulator-wrapper iframe {
+            width: 100%;
+            height: 900px;             /* стартовая, скрипт заменит на точную */
+            border: none;
+            display: block;
+            transition: height 0.15s ease;
+        }
+
+        /* ПОДВАЛ */
+        .site-footer { background-color: #fff; padding: 30px 0; border-top: 1px solid var(--border-color); }
+        .footer-wrap { display: flex; justify-content: space-between; align-items: center; }
+        @media (max-width: 600px) { .footer-wrap { flex-direction: column; gap: 16px; text-align: center; } }
+        .footer-copyright { font-size: 13px; color: var(--text-muted); }
+        .fsi-support { display: flex; align-items: center; gap: 12px; }
+        .fsi-text { font-size: 12px; color: var(--text-muted); }
+        .fsi-logo { height: 24px; width: auto; filter: grayscale(100%); opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+    <!-- ШАПКА САЙТА -->
+    <header class="site-header">
+        <div class="container header-wrap">
+            <div class="logo">
+                <img src="logo TCS.png" alt="Логотип Технологии - ЦС" class="logo-img">
+                <span class="logo-text">Технологии – ЦС</span>
+            </div>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">О компании</a>
+                <a href="products.html" class="nav-link active">Продукты</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ЗАГЛАВНЫЙ БЛОК -->
+    <section class="page-hero">
+        <div class="container">
+            <div class="page-hero-text">
+                <h1 class="page-title">Программный комплекс мультикритериального анализа бетонов</h1>
+                <p class="page-subtitle">Предиктивная система для сквозной оценки строительных материалов по критериям эксплуатационной надежности, экономики и экологии.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- КЛЮЧЕВЫЕ МОДУЛИ -->
+    <section class="modules-section">
+        <div class="container">
+            <div class="modules-grid">
+
+                <!-- Модуль 1 -->
+                <div class="module-card">
+                    <div class="module-image">
+                        <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Прогноз безопасной эксплуатации">
+                            <rect width="400" height="260" fill="#eef2f7"/>
+                            <rect x="40" y="60" width="320" height="140" fill="#d1d5db" stroke="#9ca3af" stroke-width="2"/>
+                            <path d="M80 60 L110 130 L95 200" fill="none" stroke="#6b7280" stroke-width="2"/>
+                            <path d="M300 60 L270 120 L290 200" fill="none" stroke="#6b7280" stroke-width="2"/>
+                            <line x1="60" y1="110" x2="340" y2="110" stroke="#2E7D5B" stroke-width="3"/>
+                            <line x1="60" y1="150" x2="340" y2="150" stroke="#2E7D5B" stroke-width="3"/>
+                            <text x="200" y="235" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#5a6b7a">Модель деградации материала</text>
+                        </svg>
+                    </div>
+                    <div class="module-content">
+                        <span class="module-meta">Критерий 01</span>
+                        <h3>Прогноз безопасной эксплуатации</h3>
+                        <p>Автоматизированный расчет времени до начала коррозии арматуры и глубокой деградации цементного камня. Воздействие агрессивных сред (хлориды) и климатических факторов прогнозируется на основе ML модели.</p>
+                    </div>
+                </div>
+
+                <!-- Модуль 2 -->
+                <div class="module-card">
+                    <div class="module-image">
+                        <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Стоимость жизненного цикла">
+                            <rect width="400" height="260" fill="#f3f4f6"/>
+                            <line x1="50" y1="30" x2="50" y2="210" stroke="#9ca3af" stroke-width="2"/>
+                            <line x1="50" y1="210" x2="360" y2="210" stroke="#9ca3af" stroke-width="2"/>
+                            <rect x="80" y="150" width="40" height="60" fill="#a7d3bf"/>
+                            <rect x="150" y="110" width="40" height="100" fill="#7cc0a2"/>
+                            <rect x="220" y="80" width="40" height="130" fill="#4fa985"/>
+                            <rect x="290" y="120" width="40" height="90" fill="#2E7D5B"/>
+                            <text x="200" y="240" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#5a6b7a">Сравнение затрат жизненного цикла</text>
+                        </svg>
+                    </div>
+                    <div class="module-content">
+                        <span class="module-meta">Критерий 02</span>
+                        <h3>Стоимость жизненного цикла (LCC)</h3>
+                        <p>Мультикритериальное сравнение затрат на различные составы бетонных смесей в долгосрочной перспективе эксплуатации сооружения. Система сопоставляет первоначальные затраты на компоненты с прогнозируемой стоимостью будущих ремонтов и технического обслуживания.</p>
+                    </div>
+                </div>
+
+                <!-- Модуль 3 -->
+                <div class="module-card">
+                    <div class="module-image">
+                        <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Углеродный след бетона">
+                            <rect width="400" height="260" fill="#eef2f7"/>
+                            <ellipse cx="140" cy="100" rx="60" ry="35" fill="#d1d5db"/>
+                            <ellipse cx="190" cy="90" rx="50" ry="30" fill="#d1d5db"/>
+                            <ellipse cx="170" cy="115" rx="70" ry="28" fill="#d1d5db"/>
+                            <text x="170" y="110" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="22" font-weight="700" fill="#6b7280">CO₂</text>
+                            <path d="M280 80 L280 160" stroke="#2E7D5B" stroke-width="3" marker-end="url(#arr)"/>
+                            <defs>
+                                <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                                    <path d="M0 0 L8 4 L0 8 Z" fill="#2E7D5B"/>
+                                </marker>
+                            </defs>
+                            <path d="M300 170 Q 340 150 360 190 Q 330 210 300 170 Z" fill="#a7d3bf" stroke="#2E7D5B" stroke-width="2"/>
+                            <text x="200" y="240" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#5a6b7a">Оценка углеродного следа</text>
+                        </svg>
+                    </div>
+                    <div class="module-content">
+                        <span class="module-meta">Критерий 03</span>
+                        <h3>Углеродный след (Carbon Footprint)</h3>
+                        <p>Оценка экологической эффективности строительных материалов на этапе проектирования. Система оценивает объемы выбросов CO₂ при производстве и транспортировке выбранного состава смеси, помогая оптимизировать рецептуру под эко-стандарты.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- КАК ЭТО РАБОТАЕТ -->
+    <section class="workflow-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Алгоритм работы с системой</h2>
+            </div>
+            <div class="workflow-steps">
+                <div class="step-item">
+                    <div class="step-num">01</div>
+                    <h4>Ввод данных смеси</h4>
+                    <p>Пользователь задает базовые компоненты, класс бетона по прочности на сжатие и глубину заложения арматуры.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">02</div>
+                    <h4>Выбор условий</h4>
+                    <p>Определяются параметры окружающей среды, степень агрессивности среды.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">03</div>
+                    <h4>Генерация отчета</h4>
+                    <p>ML модели формируют комплексный научно обоснованный прогноз и выдают рекомендации по оптимизации состава под заданные требования.</p>
+                </div>
+            </div>
+            <div class="workflow-cta">
+                <a href="index.html#contact" class="btn btn-primary">Запросить демо-доступ</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК С ОНЛАЙН СИМУЛЯТОРОМ (в конце страницы) -->
+    <section class="simulator-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Интерактивный инструмент</span>
+                <h2>Онлайн-демонстрация: Моделирование коррозии бетона</h2>
+                <p class="section-note">
+                    Используйте экспресс-симулятор для визуализации процесса деградации армированных конструкций в зависимости от агрессивности среды.
+                </p>
+            </div>
+
+            <div class="simulator-wrapper">
+                <iframe
+                    src="simulator.html"
+                    title="Симулятор диффузии хлоридов CS-Durability"
+                    loading="lazy"
+                    allow="fullscreen">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ПОДВАЛ -->
+    <footer class="site-footer">
+        <div class="container footer-wrap">
+             <div class="fsi-support">
+                <span class="fsi-text">Проект создан при поддержке ФГБУ "Фонд содействия развитию малых форм предприятий в научно-технической сфере" в рамках программы "Студенческий стартап" федерального проекта "Платформа университетского технологического предпринимательства"</span>
+                <img src="head_logo_fasie.png" alt="Логотип ФСИ" class="fsi-logo">
+            </div>
+        </div>
+    </footer>
+
+    <!-- АВТО-ВЫСОТА IFRAME СИМУЛЯТОРА -->
+    <script>
+    (function () {
+        var iframe = document.querySelector('.simulator-wrapper iframe');
+        if (!iframe) return;
+
+        window.addEventListener('message', function (e) {
+            var data = e.data;
+            if (!data || data.type !== 'cs-simulator-height') return;
+            if (typeof data.height !== 'number' || data.height < 200) return;
+
+            // Высота ставится на iframe; wrapper (height: auto) сжимается под него
+            iframe.style.height = (data.height + 4) + 'px';
+        });
+    })();
+    </script>
+
+</body>
+</html>

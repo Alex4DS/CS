@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Технологии - ЦС | Научные исследования и долговечность бетона</title>
+    <style>
+        /* МИНИМАЛИСТИЧНЫЙ ИНЖЕНЕРНЫЙ СТИЛЬ */
+        :root {
+            --bg-color: #fafafa;
+            --text-color: #2b303a;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --accent-color: #1e40af;
+            --accent-hover: #1d4ed8;
+            --card-bg: #ffffff;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-padding-top: 84px; }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 17px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+        /* КНОПКИ */
+        .btn {
+            display: inline-block;
+            padding: 11px 22px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .btn-primary { background-color: var(--accent-color); color: #fff; }
+        .btn-primary:hover { background-color: var(--accent-hover); }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+        .btn-secondary:hover { background-color: #f3f4f6; border-color: #d1d5db; }
+        .btn-block { display: block; width: 100%; text-align: center; }
+
+        /* Доступность фокуса */
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        /* ШАПКА */
+        .site-header {
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 74px;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; min-height: 32px; }
+        /* Логотип в шапке не вылезает за границы */
+        .logo-img {
+            height: 36px;
+            max-height: 40px;
+            width: auto;
+            object-fit: contain;
+            filter: grayscale(100%);
+        }
+        .logo-text { font-weight: 700; font-size: 20px; letter-spacing: -0.5px; }
+        .main-nav { display: flex; gap: 24px; }
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--text-color); border-bottom-color: var(--accent-color); }
+
+        /* HERO */
+        .hero-section {
+            padding: 80px 0;
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .hero-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+        @media (max-width: 768px) { .hero-wrap { grid-template-columns: 1fr; gap: 32px; } }
+
+        .hero-title { font-size: 40px; line-height: 1.2; margin-bottom: 16px; font-weight: 700; }
+        .hero-subtitle { font-size: 18px; color: var(--text-muted); margin-bottom: 32px; }
+        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .hero-image-block img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            display: block;
+        }
+
+        /* О НАС */
+        .about-section { padding: 80px 0; border-bottom: 1px solid var(--border-color); }
+        .section-header { margin-bottom: 40px; }
+        .section-subtitle {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .section-title { font-size: 30px; margin-top: 4px; }
+        .about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 64px; }
+        @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+        /* Единый размер шрифта в описании слева и подписях справа */
+        .about-text p { margin-bottom: 16px; color: #4b5563; font-size: 17px; line-height: 1.6; }
+        .about-stats { display: flex; flex-direction: column; gap: 24px; }
+        .stat-item { border-left: 3px solid var(--accent-color); padding-left: 16px; }
+        .stat-num { display: block; font-size: 34px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+        .stat-desc { font-size: 17px; color: var(--text-muted); line-height: 1.6; }
+
+        /* ФОРМА И КОНТАКТЫ */
+        .contact-section {
+            padding: 80px 0;
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+        @media (max-width: 768px) { .contact-wrap { grid-template-columns: 1fr; gap: 40px; } }
+        .contact-info h2 { font-size: 30px; margin-bottom: 16px; }
+        .contact-info p { color: var(--text-muted); margin-bottom: 32px; font-size: 17px; }
+        .contact-details p { margin-bottom: 12px; font-size: 16px; color: var(--text-color); }
+        .contact-form-block {
+            background-color: var(--bg-color);
+            padding: 32px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: var(--font-family);
+            font-size: 16px;
+            background-color: #fff;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        /* Статус отправки формы */
+        .form-status {
+            margin-top: 12px;
+            font-size: 15px;
+            text-align: center;
+            min-height: 1.2em;
+        }
+        .form-status.error { color: #c0392b; }
+
+        /* Кнопка после успешной отправки */
+        #submitBtn.sent {
+            background-color: #2E7D5B;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        /* ПОДВАЛ */
+        .site-footer { background-color: #fff; padding: 40px 0; }
+        .footer-wrap { display: flex; justify-content: space-between; align-items: center; }
+        @media (max-width: 600px) { .footer-wrap { flex-direction: column; gap: 16px; text-align: center; } }
+        .footer-copyright { font-size: 15px; color: var(--text-muted); }
+        .fsi-support { display: flex; align-items: center; gap: 20px; }
+
+        /* Увеличенный текст подписи в подвале */
+        .fsi-text {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Увеличенный логотип ФСИ (примерно высота двух строк текста) */
+        .fsi-logo {
+            height: 56px;
+            width: auto;
+            max-width: 220px;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.95;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 600px) {
+            .fsi-support { flex-direction: column; align-items: center; text-align: center; }
+            .fsi-text { font-size: 15px; }
+            .fsi-logo { height: 48px; max-width: 180px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ШАПКА САЙТА -->
+    <header class="site-header">
+        <div class="container header-wrap">
+            <div class="logo">
+                <img src="logo TCS.png" alt="Логотип Технологии - ЦС" class="logo-img">
+                <span class="logo-text">Технологии – ЦС</span>
+            </div>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link active">О компании</a>
+                <a href="products.html" class="nav-link">Продукты</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <section class="hero-section">
+        <div class="container hero-wrap">
+            <div class="hero-content">
+                <h1 class="hero-title">Наука о долговечности бетона в цифровом формате</h1>
+                <p class="hero-subtitle">Разрабатываем ПО для мультикритериального анализа, прогнозирования коррозии бетона, оценки времени безопасной эксплуатации и углеродного следа.</p>
+                <div class="hero-actions">
+                    <a href="products.html" class="btn btn-primary">Узнать о продуктах</a>
+                    <a href="#contact" class="btn btn-secondary">Связаться с нами</a>
+                </div>
+            </div>
+            <div class="hero-image-block">
+                <svg viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Инженерные бетонные конструкции" style="width:100%;height:auto;display:block;border-radius:4px;border:1px solid var(--border-color);background:#f3f4f6;">
+                    <rect width="640" height="420" fill="#f3f4f6"/>
+                    <rect width="640" height="260" fill="#eef2f7"/>
+                    <rect x="40" y="240" width="560" height="18" fill="#9ca3af"/>
+                    <rect x="40" y="258" width="560" height="8" fill="#6b7280"/>
+                    <rect x="120" y="266" width="36" height="110" fill="#9ca3af"/>
+                    <rect x="484" y="266" width="36" height="110" fill="#9ca3af"/>
+                    <path d="M156 266 Q 320 150 484 266" fill="none" stroke="#6b7280" stroke-width="8"/>
+                    <path d="M156 266 Q 320 190 484 266" fill="none" stroke="#d1d5db" stroke-width="3"/>
+                    <rect y="376" width="640" height="44" fill="#dbeafe"/>
+                    <line x1="0" y1="376" x2="640" y2="376" stroke="#93c5fd" stroke-width="2"/>
+                    <text x="320" y="405" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" fill="#6b7280">Иллюстрация: бетонная мостовая конструкция</text>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- О КОМПАНИИ -->
+    <section class="about-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Опыт и технологии</span>
+                <h2 class="section-title">Материаловедение и Data Science</h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>Компания <strong>«Технологии - ЦС»</strong> специализируется на научных исследованиях в области надежности и долговечности бетона, железобетона и сложных инженерных сооружений.</p>
+                    <p>Мы объединяем фундаментальные законы строительной химии, физики разрушения материалов и современные алгоритмы машинного обучения. Наше программное обеспечение позволяет оцифровать процессы деградации материалов, помогая инженерам принимать обоснованные решения на основе точных предиктивных моделей.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <span class="stat-num">10+</span>
+                        <span class="stat-desc">лет научных исследований в отрасли</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num">3</span>
+                        <span class="stat-desc">критерия анализа: долговечность, экономика, экология</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ФОРМА ОБРАТНОЙ СВЯЗИ -->
+    <section id="contact" class="contact-section">
+        <div class="container contact-wrap">
+            <div class="contact-info">
+                <h2>Начать сотрудничество</h2>
+                <p>Оставьте заявку, чтобы получить тестовый доступ к программному комплексу или заказать индивидуальное исследование для Вашей задачи.</p>
+                <div class="contact-details">
+                    <!-- <p><strong>Email:</strong> info@technologies-cs.ru</p> -->
+                    <!-- <p><strong>Телефон:</strong> +7 (495) 123-45-67</p> -->
+                    <p><strong>Адрес:</strong> 109004, Москва, пер. Тетеренский, д.16, оф. 4/1 </p>
+                </div>
+            </div>
+            <div class="contact-form-block">
+                <!-- Форма через Web3Forms, отправка в скрытый iframe: без CORS и без перезагрузки -->
+                <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" class="engineer-form">
+
+                    <input type="hidden" name="access_key" value="884830f6-075a-4b9a-88a0-ac2e92e96a84">
+                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+                    <input type="hidden" name="subject" value="Новая заявка с сайта Технологии-CS">
+
+                    <div class="form-group">
+                        <label for="name">Ваше имя</label>
+                        <input type="text" id="name" name="Имя пользователя" placeholder="Иван Иванов" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email или телефон</label>
+                        <input type="text" id="email" name="Контакты" placeholder="example@mail.ru" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">Организация</label>
+                        <input type="text" id="company" name="Компания" placeholder="ООО Инжиниринг">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Описание задачи или вопрос</label>
+                        <textarea id="message" name="Сообщение / Задача" rows="4" placeholder="Укажите тип объекта, условия эксплуатации или интересующий модуль ПО..." required></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="btn btn-primary btn-block">Отправить запрос</button>
+                    <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ПОДВАЛ -->
+    <footer class="site-footer">
+        <div class="container footer-wrap">
+
+            <div class="fsi-support">
+                <span class="fsi-text">Проект создан при поддержке ФГБУ "Фонд содействия развитию малых форм предприятий в научно-технической сфере" в рамках программы "Студенческий стартап" федерального проекта "Платформа университетского технологического предпринимательства"</span>
+                <img src="head_logo_fasie.png" alt="Логотип ФСИ" class="fsi-logo">
+            </div>
+        </div>
+    </footer>
+
+    <!-- ОТПРАВКА ФОРМЫ БЕЗ ПЕРЕЗАГРУЗКИ (через скрытый iframe, без CORS) -->
+    <script>
+    (function () {
+        var form = document.getElementById('contactForm');
+        if (!form) return;
+
+        var btn = document.getElementById('submitBtn');
+        var status = document.getElementById('formStatus');
+        var originalText = btn.textContent;
+        var submitted = false;
+
+        // Скрытый iframe-приёмник
+        var sinkName = 'w3f_sink_' + Date.now();
+        var sink = document.createElement('iframe');
+        sink.name = sinkName;
+        sink.style.display = 'none';
+        sink.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(sink);
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (submitted) return;
+            submitted = true;
+
+            status.textContent = '';
+            status.className = 'form-status';
+            btn.disabled = true;
+            btn.textContent = 'Отправка…';
+
+            // Отправляем форму в скрытый iframe — страница не перезагружается
+            form.target = sinkName;
+            form.submit();
+
+            // Ответ прочитать нельзя (cross-origin), но факт отправки есть.
+            // Через небольшую паузу показываем успех.
+            setTimeout(function () {
+                btn.textContent = 'Заявка отправлена';
+                btn.classList.add('sent');
+                form.reset();
+                form.removeAttribute('target');
+            }, 1200);
+        });
+    })();
+    </script>
+
+</body>
+</html>
