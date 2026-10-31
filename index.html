@@ -192,20 +192,28 @@
         }
 
         /* ПОДВАЛ */
-        .site-footer { background-color: #fff; padding: 40px 0; }
+       .site-footer { background-color: #fff; padding: 40px 0; }
         .footer-wrap { display: flex; justify-content: space-between; align-items: center; }
         @media (max-width: 600px) { .footer-wrap { flex-direction: column; gap: 16px; text-align: center; } }
         .footer-copyright { font-size: 15px; color: var(--text-muted); }
-        .fsi-support { display: flex; align-items: center; gap: 20px; }
+        .fsi-support { display: flex; align-items: center; gap: 24px; }
 
-        /* Увеличенный текст подписи в подвале */
+        /* Текст подписи в подвале */
         .fsi-text {
             font-size: 16px;
             color: var(--text-muted);
             line-height: 1.5;
         }
 
-        /* Увеличенный логотип ФСИ (примерно высота двух строк текста) */
+        /* Контейнер для двух логотипов: одинаковый размер + ровный отступ */
+        .fsi-logos {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Общий стиль для обоих логотипов — одинаковый размер */
         .fsi-logo {
             height: 56px;
             width: auto;
@@ -219,6 +227,7 @@
         @media (max-width: 600px) {
             .fsi-support { flex-direction: column; align-items: center; text-align: center; }
             .fsi-text { font-size: 15px; }
+            .fsi-logos { gap: 16px; }
             .fsi-logo { height: 48px; max-width: 180px; }
         }
     </style>
@@ -347,7 +356,11 @@
 
             <div class="fsi-support">
                 <span class="fsi-text">Проект создан при поддержке ФГБУ "Фонд содействия развитию малых форм предприятий в научно-технической сфере" в рамках программы "Студенческий стартап" федерального проекта "Платформа университетского технологического предпринимательства"</span>
-                <img src="head_logo_fasie.png" alt="Логотип ФСИ" class="fsi-logo">
+                <div class="fsi-logos">
+                    <img src="head_logo_fasie.png" alt="Логотип ФСИ" class="fsi-logo">
+                    <!-- Второй логотип -->
+                    <img src="head_logo_second.png" alt="Второй логотип" class="fsi-logo">
+                </div>
             </div>
         </div>
     </footer>
